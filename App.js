@@ -22,7 +22,7 @@ export default function App() {
     
       {/*<Home/>*/}
       {/*<Search/>*/}
-      <Products category={"smart"} />
+      <Products category={"smartphones"} />
 
 
 
