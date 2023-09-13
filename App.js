@@ -1,20 +1,43 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { FlatList, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { Colors } from './src/theme/Colors';
+//import Home from './src/screens/Home.js';
+import Header from './src/components/Header.js';
+import Search from './src/components/Search';
+import Products from './src/screens/Products';
+
+
+
+
+
+
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+
+
+
       <StatusBar style="auto" />
+    
+      {/*<Home/>*/}
+      {/*<Search/>*/}
+      <Products category={"smart"} />
+
+
+
+
+
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+
+
+   
+    
+    
   },
 });
