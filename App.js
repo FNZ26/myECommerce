@@ -1,12 +1,7 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet } from 'react-native';
-import { Colors } from './src/theme/Colors';
 import { useFonts } from 'expo-font'
 import { NavigationContainer } from '@react-navigation/native';
-import RootNavigation from './src/navigation/RootNavigation';
-
-
-
+import TabNavegation from './src/navigation/TabNavegation';
+import { Provider } from 'react-redux';
 
 
 export default function App() {
@@ -21,9 +16,11 @@ export default function App() {
   }
 
   return (
+    
     <NavigationContainer>
-      <RootNavigation />
+      <TabNavegation />
     </NavigationContainer>
+ 
   );
 }
 
