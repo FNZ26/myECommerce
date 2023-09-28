@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Colors } from '../theme/Colors'
 
 const Header = ({ title = "home"}) => {

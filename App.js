@@ -2,6 +2,7 @@ import { useFonts } from 'expo-font'
 import { NavigationContainer } from '@react-navigation/native';
 import TabNavegation from './src/navigation/TabNavegation';
 import { Provider } from 'react-redux';
+import { store } from './src/redux/store';
 
 
 export default function App() {
@@ -16,11 +17,11 @@ export default function App() {
   }
 
   return (
-    
-    <NavigationContainer>
-      <TabNavegation />
-    </NavigationContainer>
- 
+    <Provider store={store}>
+      <NavigationContainer>
+        <TabNavegation />
+      </NavigationContainer>
+    </Provider>
   );
 }
 

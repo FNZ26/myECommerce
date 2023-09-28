@@ -7,7 +7,7 @@ import Rating from '../components/Rating'
 
 
 const ProductDetail = (props) => {
-    //console.log(products[0])
+   
     // Para las estrellas un componente que imprima la cantidad segun corresponda (recibe el  numero)
 
     const item = props.route.params;

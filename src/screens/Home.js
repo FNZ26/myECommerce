@@ -1,15 +1,15 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-
+import Categories from '../components/Categories'
 import Header from '../components/Header.js'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useSelector } from 'react-redux'
+
 
 
 const Home = (props) => {
 
- // const Categories = useSelector(state => state.homeSlice.allCategories);
-  const Categories = useSelector 
+ 
+
 
 
   return (

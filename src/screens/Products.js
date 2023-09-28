@@ -7,11 +7,16 @@ import { products } from '../data/tabProductos'
 import ProductsItem from '../components/ProductsItem'
 import { useState, useEffect } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useSelector } from 'react-redux'
 
 
 const Products = (props) => {
 
-   
+   const productsFilteredByCategory = useSelector(
+    (state) => state.sliceHome.productsFilteredByCategory
+   );
+
+   console.log(productsFilteredByCategory)
 
     const [categoryProducts, setCategoryProducts] = useState([]);
 

@@ -13,7 +13,7 @@ const Profile = () => {
          
                 <View style={styles.container}>
                     
-                    <Image  source={uri=('https://st2.depositphotos.com/1104517/11965/v/950/depositphotos_119659092-stock-illustration-male-avatar-profile-picture-vector.jpg')} />
+                   
                     <Pressable><FontAwesome5 name="camera" size={24} color="black" /></Pressable>
                     <Pressable><FontAwesome5 name="camera" size={24} color="black" /></Pressable>
                     <Pressable><FontAwesome5 name="camera" size={24} color="black" /></Pressable>

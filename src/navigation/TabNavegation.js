@@ -3,7 +3,7 @@ import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Profile from '../screens/Profile';
 import RootNavigation from './RootNavigation';
-import { NavigationContainer } from '@react-navigation/native';
+
 import { FontAwesome } from '@expo/vector-icons';
 import { Colors } from '../theme/Colors';
 
