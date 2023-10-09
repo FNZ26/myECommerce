@@ -25,4 +25,3 @@ const RootNavigation = () => {
 
 export default RootNavigation
 
-const styles = StyleSheet.create({})

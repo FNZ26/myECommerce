@@ -12,23 +12,26 @@ import { useSelector } from 'react-redux'
 
 const Products = (props) => {
 
-   const productsFilteredByCategory = useSelector(
-    (state) => state.sliceHome.productsFilteredByCategory
-   );
+    const productsFilteredByCategory = useSelector(
+        (state) => state.sliceHome.productsFilteredByCategory
+    );
 
-   console.log(productsFilteredByCategory)
+   
 
     const [categoryProducts, setCategoryProducts] = useState([]);
 
     const [text, setText] = useState("");
 
+
+    // recibe el item  por route
     const { item } = props.route.params;
-    console.log(item);
+ 
 
     useEffect(() => {
         const catProductFiltred = products.filter((el) => el.category === item);
         setCategoryProducts(catProductFiltred);
 
+     
 
 
 
@@ -48,20 +51,19 @@ const Products = (props) => {
 
         <SafeAreaView>
             <Header title={item} />
-
             <Search text={text} setText={setText} />
-          
-                <View style={styles.container}>
 
-                    <FlatList
+            <View style={styles.container}>
 
-                        data={categoryProducts}
-                        keyExtractor={categoryProducts.id}
-                        renderItem={({ item }) => <ProductsItem item={item} navigation={props.navigation} />}
-                    />
+                <FlatList
 
-                </View>
-            
+                    data={categoryProducts}
+                    keyExtractor={categoryProducts.id}
+                    renderItem={({ item }) => <ProductsItem item={item} navigation={props.navigation} />}
+                />
+
+            </View>
+
         </SafeAreaView >
 
     )

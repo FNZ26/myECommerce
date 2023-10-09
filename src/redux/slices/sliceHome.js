@@ -13,18 +13,18 @@ const sliceHome = createSlice({
     reducers: {
         setCategory: (state, action) => {
             state.categorySelected = action.payload;
-           
+            // buscador
             //state.productsFilteredByCategory = state.allProducts.filter((el)=>el.category === state.categorySelected)
-           
+
 
         },
-       
+
 
 
     },
 
 });
 
-export const {setCategory} = sliceHome.actions;
+export const { setCategory } = sliceHome.actions;
 
 export default sliceHome.reducer;

@@ -9,6 +9,7 @@ import { AntDesign } from '@expo/vector-icons';
 
 
 const Search = (props) => {
+
     const clearText = () => {
         props.setText(null);
     }
@@ -25,6 +26,7 @@ const Search = (props) => {
                     placeholder="Busca un producto"
 
                 />
+
                 <Pressable onPress={() => clearText() }>
                     <AntDesign name="close" size={24} color="white" />
 

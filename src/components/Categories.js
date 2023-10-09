@@ -4,12 +4,15 @@ import React from 'react'
 import CategoryItem from './CategoryItem.js';
 import { Colors } from '../theme/Colors';
 import { useSelector } from 'react-redux';
+import { useGetCategoriesQuery } from '../services/ecApi.js';
 
 
 const Categories = (props) => {
 
     const tabCategories = useSelector((state) => state.sliceHome.allCategories)
+    const datos = useGetCategoriesQuery();
 
+    console.log(datos);
 
     return (
         <View style={styles.container}>

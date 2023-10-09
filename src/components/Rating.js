@@ -25,11 +25,11 @@ const Rating = (props) => {
     //<FontAwesome5 name="star-half" size={24} color="black" /> 
 
     return (
-        <View>
+        <View  style={styles.containerRate}>
             <View style={styles.rate} >
                 {newRatingArr.map( (rating) => (rating ? <FontAwesome name="star-o" size={24} color="black" key={Math.random()}/> : <FontAwesome name="star" size={24} color="black" key={Math.random()}  />)  )}
             </View>
-         
+            <Text> ( {props.rate} ) </Text>
         </View>
     )
 }
@@ -39,6 +39,17 @@ export default Rating
 const styles = StyleSheet.create({
     rate: {
         flexDirection: 'row',
-    }
+        
+    },
+    containerRate: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginVertical: 5,
+        padding: 2,
+        fontFamily: 'myFont',
+        fontSize: 25,
+
+
+    },
 
 })

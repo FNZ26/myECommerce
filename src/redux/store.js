@@ -1,6 +1,16 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import sliceHome from "./slices/sliceHome";
-export const store = configureStore ({
-    reducer: {sliceHome},
+import { ecApi } from "../services/ecApi";
+
+
+export const store = configureStore({
+
+    reducer: {
+        sliceHome,
+        [ecApi.reducerPath]: ecApi.reducer,
+    },
+    middleware: (getDefaultMiddleware) =>
+        // Para agregar mas apis, seria concat(ecApi.middleware, ejemploOtraApi.midleware)
+        getDefaultMiddleware().concat(ecApi.middleware),
 
 })
