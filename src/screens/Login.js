@@ -4,53 +4,74 @@ import React from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Colors } from '../theme/Colors'
 import { TouchableOpacity } from 'react-native'
+import { signInWithEmailAndPassword } from 'firebase/auth'
+// lo necesario para el login (precisa el registrarse previamente)
+import { firebase_auth } from '../firebase/firebase_auth';
+import { useDispatch } from 'react-redux'
+import { setIdToken, setUser } from '../redux/slices/sliceAuth'
 
-
-const Login = ( navigation ) => {
+// falta terminar lo del boton de iniciar sesion que te lleve a la app
+const Login = (props) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
 
-    const handleLogin = () => {
+    //usar un setX desde el slice de auth
+    const dispatch = useDispatch();
+    const onHandleLogin = async () => {
+
+        try {
+            const response = await signInWithEmailAndPassword(firebase_auth, email, password);
+            //console.log(response);
+            dispatch(setUser(response.user.email));
+            dispatch(setIdToken(response._tokenResponse.idToken));
 
 
-        console.log("userName: ", email);
-        console.log("passsword: ", password);
+            dispatch(setUser(response.user.email));
+            dispatch(response._tokenResponse.idToken);
+
+        } catch (e) {
+            console.log("error login:", e);
+        }
+        //console.log("userName: ", email);
+        //console.log("passsword: ", password);
     };
 
     return (
         <SafeAreaView style={styles.container}>
-        <Text style={styles.title}>
-            Iniciar Sesion:
-        </Text>
+
+            <Text style={styles.title}>Logo</Text>
+            <Text style={styles.title}>
+                Iniciar Sesion:
+            </Text>
 
 
-        <TextInput
-            placeholder='Email'
-            style={styles.textInput}
-            value={email}
-            onChangeText={(text) => setEmail(text)}
-        />
-        <TextInput
-            placeholder="Contraseña"
-            secureTextEntry
-            style={styles.textInput}
-            value={password}
-            onChangeText={(text) => setPassword(text)}
-        />
-     
-        <TouchableOpacity style={styles.button} onPress={() => handleRegister()}>
-            <Text >Iniciar Sesion</Text>
-        </TouchableOpacity>
+            <TextInput
+                placeholder='Email'
+                style={styles.textInput}
+                value={email}
+                onChangeText={(text) => setEmail(text)}
+            />
+            <TextInput
+                placeholder="Contraseña"
+                secureTextEntry
+                style={styles.textInput}
+                value={password}
+                onChangeText={(text) => setPassword(text)}
+            />
 
-        <View style={styles.finalContainer}>
-            <Text style={styles.finalText}>Ya tenes cuenta?</Text>
+            <TouchableOpacity style={styles.button} onPress={() => onHandleLogin()}>
+                <Text >Iniciar Sesion</Text>
+            </TouchableOpacity>
 
-            <Pressable onPress={() => navigation.navigate('Register')}>
-                <Text style={styles.loginText}>Inicia Sesion aca!</Text>
-            </Pressable>
-        </View>
-    </SafeAreaView>
+            <View style={styles.finalContainer}>
+                <Text style={styles.finalText}>No tenes cuenta?</Text>
+
+                <Pressable onPress={() => props.navigation.navigate('Register')}>
+                    <Text style={styles.loginText}>Registrate aca!</Text>
+                </Pressable>
+            </View>
+        </SafeAreaView>
     )
 }
 
@@ -62,10 +83,9 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-       
+
         height: '100%',
-        borderColor: 'red',
-        borderWidth: 5,
+
 
     },
     title: {
@@ -110,20 +130,20 @@ const styles = StyleSheet.create({
         marginHorizontal: 5,
         color: Colors.heavyBlue,
         borderBottomWidth: 2,
-        borderColor:  Colors.Heavyblue,
+        borderColor: Colors.Heavyblue,
 
     },
-    Pressable:{
+    Pressable: {
         fontSize: 22,
         fontFamily: 'myFont',
         color: 'blue',
         marginHorizontal: 5,
     },
     finalContainer: {
-       
+
         alignContent: 'center',
         flexDirection: 'row',
-        
+
 
     }
 

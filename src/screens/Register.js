@@ -1,27 +1,45 @@
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
-import { useState } from 'react'
-import React from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { Colors } from '../theme/Colors'
-import { TouchableOpacity } from 'react-native'
+import { useState } from 'react';
+import React from 'react';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Colors } from '../theme/Colors';
+import { TouchableOpacity } from 'react-native';
 
-const Register = ( navigation ) => {
+
+
+// Lo necesario para crear un usuario, en el sing up esta lo siguiente
+import { firebase_auth } from '../firebase/firebase_auth';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+
+const Register = (props) => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [repeatPassword, setRepeatPassword] = useState("");
 
-    console.log(navigation.navigate())
+    //console.log(navigation.navigate())
 
-    const handleRegister = () => {
+    const handleRegister = async () => {
 
+        try {
+            const response = await createUserWithEmailAndPassword(firebase_auth, email, password);
+            props.navigation.navigate('Login');
+        }
+        catch (e) {
+            console.log("error registro:", e);
+        }
 
-        console.log("userName: ", email);
-        console.log("passsword: ", password);
+        // en caso de necesitar uqe haga alog al final
+        //finally{}
+
+        //console.log("userName: ", email);
+        //console.log("passsword: ", password);
     };
 
     return (
         <SafeAreaView style={styles.container}>
+
+            <Text style={styles.title}>Logo</Text>
             <Text style={styles.title}>
                 Registro:
             </Text>
@@ -54,7 +72,7 @@ const Register = ( navigation ) => {
             <View style={styles.finalContainer}>
                 <Text style={styles.finalText}>Ya tenes cuenta?</Text>
 
-                <Pressable onPress={() => navigation.navigate()}>
+                <Pressable onPress={() => props.navigation.navigate('Login')}>
                     <Text style={styles.loginText}>Inicia Sesion aca!</Text>
                 </Pressable>
             </View>
@@ -69,10 +87,9 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-       
+
         height: '100%',
-        borderColor: 'red',
-        borderWidth: 5,
+    
 
     },
     title: {
@@ -117,20 +134,20 @@ const styles = StyleSheet.create({
         marginHorizontal: 5,
         color: Colors.heavyBlue,
         borderBottomWidth: 2,
-        borderColor:  Colors.Heavyblue,
+        borderColor: Colors.Heavyblue,
 
     },
-    Pressable:{
+    Pressable: {
         fontSize: 22,
         fontFamily: 'myFont',
         color: 'blue',
         marginHorizontal: 5,
     },
     finalContainer: {
-       
+
         alignContent: 'center',
         flexDirection: 'row',
-        
+
 
     }
 

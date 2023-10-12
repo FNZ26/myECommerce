@@ -17,6 +17,21 @@ export const ecApi = createApi({
             query: () => "products.json",
         }),
 
+        //se hace la conexion con la bd y despues  se exporta para poder usarla
+        getImage: builder.query({
+            query:  ()=> "image.json"
+        }),
+        // method: put o post (1 sola imagen o muchos post)
+        putImage: builder.mutation({
+            query: (image)  => ({
+                // direccion donde se  guarda?
+                url: "image.json",
+                method: "put",
+                body: image,
+            }),
+
+        }),
+
 
     }),
 
@@ -27,6 +42,6 @@ export const ecApi = createApi({
 //primer escribir {} = ecApi y despues el useGet etc
 
 
-export const { useGetCategoriesQuery, useGetProductsQuery } = ecApi;
+export const { useGetCategoriesQuery, useGetProductsQuery, usePutImageMutation, useGetImageQuery } = ecApi;
 
 

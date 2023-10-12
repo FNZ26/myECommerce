@@ -6,6 +6,7 @@ import { store } from './src/redux/store';
 import AuthNavigation from './src/navigation/AuthNavigation';
 import Login from './src/screens/Login';
 import Register from './src/screens/Register';
+import MainNavigation from './src/navigation/MainNavigation';
 
 export default function App() {
   const [fontLoaded] = useFonts({
@@ -19,19 +20,15 @@ export default function App() {
   }
 
 
- //  <TabNavegation />
+  // 
   return (
-     
- <Provider store={store}>
-      <NavigationContainer>
-       
 
-        <AuthNavigation />
-   
-      </NavigationContainer>
+    <Provider store={store}>
+      <MainNavigation />
+
     </Provider>
-  
-    
+
+
   );
 }
 

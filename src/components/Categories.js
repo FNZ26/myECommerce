@@ -12,7 +12,7 @@ const Categories = (props) => {
     const tabCategories = useSelector((state) => state.sliceHome.allCategories)
     const datos = useGetCategoriesQuery();
 
-    console.log(datos);
+  
 
     return (
         <View style={styles.container}>
