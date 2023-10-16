@@ -5,17 +5,53 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Colors } from '../theme/Colors';
 
+// imports de Camara y Galeria
 import * as ImagePicker from "expo-image-picker";
 import { useGetImageQuery, usePutImageMutation } from '../services/ecApi';;
 
 
-const Profile = () => {
+// import location
+import * as Location from "expo-location";
 
-    //const [image, setImage] = useState(null);
+const Profile = ( props ) => {
+    // props para props.navegation
+
+
     const [putImage, result] = usePutImageMutation();
     const { data, isLoading, error, isError, refetch } = useGetImageQuery();
     const defaultImage = 'https://static.vecteezy.com/system/resources/thumbnails/005/544/718/small/profile-icon-design-free-vector.jpg';
 
+    const [location, setLocation] = useState(null);
+
+
+
+    const openCamera = async () => {
+        const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+
+        if (permissionResult.granted === false) {
+            alert("Necesitas aceptar los permisos para poder utilizar la camara");
+            return;
+        } else {
+            const result = await ImagePicker.launchCameraAsync({
+                base64: true
+            });
+
+           // console.log(result);
+
+            if (!result.canceled) {
+                //console.log("result  no fue canceled", result.assets[0].base64)
+                await putImage({
+                    image: `data:image/jpeg;base64,${result.assets[0].base64}`
+                });
+
+                refetch();
+
+            }
+        }
+
+
+
+    };
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -37,49 +73,76 @@ const Profile = () => {
         }
     };
 
-    const openCamera = async () => {
-        const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
 
-        if (permissionResult.granted === false) {
-            alert("Dame permisos vieja");
+
+    const getCoords = async () => {
+
+        console.log("click en el mapa")
+
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+            // conosle log error no permisos
+            alert("Necesitas aceptar los permisos para poder utilizar el mapa");
+            return;
+        }
+
+        let location = await Location.getCurrentPositionAsync({});
+        setLocation(location);
+
+        props.navigation.navigate("map", {location});
+        
+    };
+   
+
+
+
+
+/*
+    const openLocation = async () => {
+        let { status } = await Location.requestForegroundPermissionAsync();
+        if (status !== 'granted') {
+            setErrorMsg('Permission to access location was denied');
             return;
         } else {
-            const result = await ImagePicker.launchCameraAsync();
-
-            console.log(result);
-
-            if (!result.canceled) {
-                await putImage({
-                    image: `data:image/png;base64,${result.assets[0].base64}`
-                });
-            }
+            let location = await Location.getCurrentPositionAsync({});
+            setLocation(location);
+            NavigationPreloadManager.navigate("map", { location });
 
 
-            refetch();
         }
 
 
 
-    };
+    }
+
+
+*/
+
     return (
         <SafeAreaView>
-
             <Header title={'Perfil'} />
-
             <View style={styles.container}>
 
-                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                    <Button title="Pick an image from camera roll" onPress={pickImage} />
-                    <Button title="Open Camera" onPress={openCamera} />
-                    <Image source={{ uri: data ? data.image : defaultImage }} style={{ width: 200, height: 200 }} />
+
+
+
+                <Image source={{ uri: data ? data.image : defaultImage }} style={{ width: 200, height: 200 }} />
+
+
+                <View style={styles.containerOption}>
+                    <Pressable><FontAwesome5 onPress={getCoords} name="map" size={24} color="black" /></Pressable>
+                    <Text>Mapa</Text>
                 </View>
+                <View style={styles.containerOption}>
+                    <Pressable><FontAwesome5 onPress={pickImage} name="images" size={24} color="black" /></Pressable>
+                    <Text>Galeria</Text></View>
+                <View style={styles.containerOption}>
+                    <Pressable><FontAwesome5 onPress={openCamera} name="camera" size={24} color="black" /></Pressable>
+                    <Text>Camara</Text>
+                </View>
+              
+                {isLoading ? <Text>Is Loading</Text> : <Text>Load Complit</Text>}
 
-                {isLoading ? <Text>AAA</Text> : <Text>OOOO</Text>}
-
-
-                <Pressable><FontAwesome5 name="camera" size={24} color="black" /></Pressable>
-                <Pressable><FontAwesome5 name="images" size={24} color="black" /></Pressable>
-                <Pressable><FontAwesome5 name="map" size={24} color="black" /></Pressable>
             </View>
 
 
@@ -98,6 +161,10 @@ const styles = StyleSheet.create({
 
         width: '100%',
         height: '100%'
+    },
+    containerOption: {
+
+        flexDirection: 'row',
     }
 
 });

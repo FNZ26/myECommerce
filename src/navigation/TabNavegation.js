@@ -1,4 +1,3 @@
-import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Profile from '../screens/Profile';
@@ -6,6 +5,7 @@ import RootNavigation from './RootNavigation';
 
 import { FontAwesome } from '@expo/vector-icons';
 import { Colors } from '../theme/Colors';
+import ProfileNavigation from './ProfileNavegation';
 
 
 const Tab = createBottomTabNavigator();
@@ -18,8 +18,7 @@ const TabNavegation = () => {
                 headerShown: false,
                 title: "",
                 headerBackground: Colors.heavyBlue
-            }}
-        >
+            }}>
             <Tab.Screen
                 options={{
                     tabBarIcon: ({ focused }) =>
@@ -40,7 +39,7 @@ const TabNavegation = () => {
                             color={focused ? Colors.heavyBlue : Colors.beige} />
                     )
                 }}
-                name="profile" component={Profile} />
+                name="ProfileNavegation" component={ProfileNavigation} />
         </Tab.Navigator>
 
     )
@@ -48,4 +47,3 @@ const TabNavegation = () => {
 
 export default TabNavegation
 
-const styles = StyleSheet.create({})
