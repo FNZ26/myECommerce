@@ -1,38 +1,54 @@
-import { StyleSheet, Text, View, FlatList } from 'react-native'
-import React from 'react'
-
+import { StyleSheet, Text, View, FlatList, ActivityIndicator } from 'react-native'
+import React, { useEffect } from 'react'
 import CategoryItem from './CategoryItem.js';
-import { Colors } from '../theme/Colors';
-import { useSelector } from 'react-redux';
-import { useGetCategoriesQuery } from '../services/ecApi.js';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { useGetCategoriesQuery } from '../services/ecApi.js';
+import { setCategory } from '../redux/slices/sliceHome.js';
+import Loading from './Loading.js';
 
 const Categories = (props) => {
+    const dispatch = useDispatch();
+    const { data, error, isError, isLoading } = useGetCategoriesQuery();
+    const allCategories = useSelector((state) => state.sliceHome.allCategories);
 
-    const tabCategories = useSelector((state) => state.sliceHome.allCategories)
-    const datos = useGetCategoriesQuery();
+    useEffect(() => {
+        if (!isLoading && !isError && data) {
+            dispatch(setCategory(data));
+        }
+    }, [data, isError, isLoading, dispatch]);
 
-  
+    if (isLoading) {
+        // Puedes mostrar un indicador de carga aquí
+        console.log("esta cargando")
+        return (
+            <Loading />
+        );
+    } else {
+        console.log("cargo data");
+        if (isError) {
+            console.error('Error al obtener categorías:', error);
+            // Puedes mostrar un mensaje de error aquí
+        }
 
-    return (
-        <View style={styles.container}>
-            <FlatList
-                data={tabCategories}
-                keyExtractor={(key) => key}
-                style={styles.card}
-                renderItem={({ item }) => <CategoryItem navigation={props.navigation} item={item} />}
 
-            />
+        return (
+            <View style={styles.container}>
+                <FlatList
+                    data={allCategories}
+                    keyExtractor={(key) => key}
+                    style={styles.card}
+                    renderItem={({ item }) => <CategoryItem navigation={props.navigation} item={item} />}
+                />
+            </View>
+        );
+    }
+};
 
-        </View>
-    )
-}
-
-export default Categories
+export default Categories;
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: Colors.heavyBlue,
         alignItems: 'center',
         height: '100%',
         padding: 5,
@@ -40,6 +56,5 @@ const styles = StyleSheet.create({
     card: {
         width: '90%',
         padding: 5,
-    }
-
-})
+    },
+});

@@ -4,7 +4,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
 
 const Rating = (props) => {
-    
+    textSize=(props.size)+3;
     //const value = Math.ceil(props.rate);
    // const value =  Math.trunc( props.rate ) ;
    const value = Math.round( props.rate );
@@ -27,9 +27,9 @@ const Rating = (props) => {
     return (
         <View  style={styles.containerRate}>
             <View style={styles.rate} >
-                {newRatingArr.map( (rating) => (rating ? <FontAwesome name="star-o" size={24} color="black" key={Math.random()}/> : <FontAwesome name="star" size={24} color="black" key={Math.random()}  />)  )}
+                {newRatingArr.map( (rating) => (rating ? <FontAwesome name="star-o" size={props.size} color="black" key={Math.random()}/> : <FontAwesome name="star" size={props.size} color="black" key={Math.random()}  />)  )}
             </View>
-            <Text> ( {props.rate} ) </Text>
+            <Text style={fontSize=textSize}> ( {props.rate} ) </Text>
         </View>
     )
 }

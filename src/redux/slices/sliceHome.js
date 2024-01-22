@@ -1,30 +1,40 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { tabCategories } from "../../data/tabCategories";
-import { products } from "../../data/tabProductos";
+
+import { useGetCategoriesQuery } from "../../services/ecApi";
+import { useEffect } from "react";
 
 const sliceHome = createSlice({
     name: "home",
     initialState: {
-        allCategories: tabCategories,
-        allProducts: products,
-        categorySelected: "",
+        allCategories: [],
+        allProducts: [],
+        categorySelected: [],
         productsFilteredByCategory: [],
+        product: []
     },
     reducers: {
         setCategory: (state, action) => {
-            state.categorySelected = action.payload;
-            // buscador
-            //state.productsFilteredByCategory = state.allProducts.filter((el)=>el.category === state.categorySelected)
-
+            state.allCategories = action.payload;
 
         },
+        setProducts: (state, action) => {
+            state.allProducts = action.payload;
+        },
+        setCategorySelected: (state, action) => {
+            state.categorySelected = action.payload;
 
+        },
+        setProductItem: (state, action) => {
+            state.product = action.payload;
 
+        },
 
     },
 
 });
 
-export const { setCategory } = sliceHome.actions;
+export const { setCategory, setProducts, setCategorySelected, setProductItem} = sliceHome.actions;
 
 export default sliceHome.reducer;
+
+

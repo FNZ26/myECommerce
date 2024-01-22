@@ -18,8 +18,8 @@ const sliceAuth = createSlice({
         clearUser: (state) => {
             (state.user = null),
                 (state.idToken = null);
-
-        }
+        },
+        
     },
 })
 

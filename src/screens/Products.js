@@ -1,80 +1,68 @@
-import { FlatList, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { FlatList, View } from 'react-native'
 import React from 'react'
-import Search from '../components/Search'
-import Header from '../components/Header'
-import { Colors } from '../theme/Colors'
+import HeaderSearch from '../components/HeaderSearch'
 import { products } from '../data/tabProductos'
 import ProductsItem from '../components/ProductsItem'
 import { useState, useEffect } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useSelector } from 'react-redux'
-
+import { useDispatch, useSelector } from 'react-redux'
+import { useGetProductsQuery } from '../services/ecApi'
+import { setProducts } from '../redux/slices/sliceHome'
 
 const Products = (props) => {
+    const dispatch = useDispatch();
 
-    const productsFilteredByCategory = useSelector(
-        (state) => state.sliceHome.productsFilteredByCategory
-    );
+    const { comeFrom } = props.route.params;
 
-   
-
+    const [filtredByCategory, setFiltredByCategory] = useState(false);
     const [categoryProducts, setCategoryProducts] = useState([]);
 
-    const [text, setText] = useState("");
+    const allProducts = useSelector((state) => state.sliceHome.allProducts);
+    const item = useSelector((state) => state.sliceHome.categorySelected);
 
-
-    // recibe el item  por route
-    const { item } = props.route.params;
- 
+    const { data, error, isError, isLoading } = useGetProductsQuery();
 
     useEffect(() => {
-        const catProductFiltred = products.filter((el) => el.category === item);
-        setCategoryProducts(catProductFiltred);
-
-     
-
-
-
-        if (text) {
-
-            const titleProduct = products.filter(
-                (el) => el.title.toLowerCase() === text
-            )
-            setCategoryProducts(titleProduct);
-
+        if (!isLoading && !isError && data) {
+            dispatch(setProducts(data))
+            // console.log(data)
         }
-    }, [text, item])
+    }, [data, isError, isLoading]);
+    if (isLoading) {
+        //mostrar un indicador de carga
+        console.log("esta cargando")
+    } else {
+        //console.log("cargo data")
+    }
+    if (isError) {
+        console.error('Error al obtener categorías:', error);
+        //mostrar un mensaje de error
+    }
+    useEffect(() => {
+        if (comeFrom === 'category') {
+            const catProductFiltred = products.filter((el) => el.category === item);
+            setCategoryProducts(catProductFiltred);
+            setFiltredByCategory(true);
+        } else { 
+            
+            setFiltredByCategory(false); 
+        }
 
+    }, [item, comeFrom])
 
-
+    //console.log(filtredByCategory)
     return (
-
         <SafeAreaView>
-            <Header title={item} />
-            <Search text={text} setText={setText} />
-
-            <View style={styles.container}>
-
+            <HeaderSearch navigation={props.navigation} />
+            <View >
                 <FlatList
-
-                    data={categoryProducts}
-                    keyExtractor={categoryProducts.id}
-                    renderItem={({ item }) => <ProductsItem item={item} navigation={props.navigation} />}
-                />
-
+                    data={filtredByCategory ? categoryProducts : allProducts}
+                    keyExtractor={filtredByCategory ? categoryProducts.id : allProducts.id}
+                    renderItem={({ item }) => <ProductsItem item={item} navigation={props.navigation} />
+                    } />
             </View>
-
         </SafeAreaView >
-
     )
 }
 
 export default Products
-
-const styles = StyleSheet.create({
-    container: {
-        borderColor: Colors.beige,
-        alignItems: 'center',
-    }
-
-})

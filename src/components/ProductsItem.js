@@ -2,6 +2,7 @@ import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { Colors } from '../theme/Colors'
 import { ScrollView } from 'react-native-web'
+import Rating from './Rating'
 
 const ProductsItem = (props) => {
 
@@ -9,21 +10,20 @@ const ProductsItem = (props) => {
 
 
     return (
-
-        <View style={styles.container}>
-            <View style={styles.ProductStyle}>
-                <Pressable onPress={() => props.navigation.navigate("productDetail", props.item)} style={styles.boton}>
-                    <Image
-                        style={styles.image}
-                        source={{ uri: props.item.images[0] }}
-
-
-                    />
-                    <Text style={styles.fontStyle}>{props.item.title} </Text>
-                </Pressable>
+        <Pressable onPress={() => props.navigation.navigate("productDetail", props.item)} style={styles.container}>
+            <View>
+                <Image
+                    style={styles.image}
+                    source={{ uri: props.item.images[0] }} />
             </View>
-        </View>
-
+          
+      
+            <View style={styles.infoContainer}>
+                <Text style={styles.fontStyle}>{props.item.title} </Text>
+                <Rating rate={props.item.rating} size={16} />
+                <Text style={styles.price}> $ {props.item.price} </Text>
+            </View>
+        </Pressable>
     )
 }
 
@@ -33,26 +33,28 @@ const styles = StyleSheet.create({
     container: {
         borderBottomWidth: 2,
         borderColor: Colors.beige,
-    },
-    ProductStyle: {
-        alignItems: 'center',
-
+        width: '100%',
+        flexDirection: 'row',
+        paddingHorizontal: 10,
+        paddingVertical: 5,
     },
     fontStyle: {
+        fontSize: 16,
+    },
+    price:{
         fontSize: 22,
     },
     image: {
-        width: 100,
-        height: 100,
-
-
+        flex: 1,
+        width: 120,
+        height: 120,
     },
-    boton: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginVertical: 5,
-        marginHorizontal: 5,
-        paddingVertical: 5,
-    },
+
+    infoContainer: {
+        flex: 1,
+        padding: 5,
+        borderColor: 'green',
+        borderWidth: 1,
+    }
 
 })

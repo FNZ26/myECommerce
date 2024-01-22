@@ -1,10 +1,11 @@
 import { StyleSheet, Text, View, Image, Button, Pressable } from 'react-native';
 import React from 'react';
-import Header from '../components/Header';
+
 import { Colors } from '../theme/Colors';
 import Rating from '../components/Rating';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import PriceAdjust from '../components/PriceAdjust';
+import Header from '../components/Header';
 
 
 /*
@@ -17,8 +18,6 @@ import PriceAdjust from '../components/PriceAdjust';
     "stock": 34,
     "brand": "Apple",
     "category": "smartphones",
-
-
 */
 
 
@@ -26,13 +25,15 @@ const ProductDetail = (props) => {
 
     const item = props.route.params;
     const initialProd = item;
-
+    //ToDo:
+    //  <Header title="Detalle" /> volver a agregar Header
     return (
         <SafeAreaView>
-            <Header title="Detalle" />
+            
+            <Header title={initialProd.title} navigation={props.navigation} />
             <View style={styles.container}>
 
-                <Text style={styles.title} > {initialProd.title} </Text>
+                <Text style={styles.titulo} > {initialProd.title} </Text>
 
                 <Rating rate={initialProd.rating} />
 
@@ -100,7 +101,7 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         height: '100%',
     },
-    title: {
+    titulo: {
         fontFamily: 'myFontBold',
         fontSize: 26,
         borderBottomWidth: 2,

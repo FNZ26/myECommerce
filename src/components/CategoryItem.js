@@ -1,24 +1,29 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, Text, View, Image } from 'react-native'
 import React from 'react'
 import { Colors } from '../theme/Colors'
-import { setCategory } from '../redux/slices/sliceHome'
+import { setCategorySelected } from '../redux/slices/sliceHome'
 import { useDispatch } from 'react-redux'
+import { imageList } from './imageList'
 
 const CategoryItem = (props) => {
   const item = props.item;
- const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
+  const onHandleItem = () => {
+    dispatch(setCategorySelected(props.item))
+    //ToDo: No pasar por navigation el item, usar el store
+    props.navigation.navigate('products', {
+      navigation: props.navigation,
+      comeFrom: "category"
+    });
 
-  const onHandleItem = ()=>{
-    dispatch(setCategory(props.item));
-    props.navigation.navigate("products", {item}) 
-   
   }
 
+  // console.log(imageList.automotive)
   return (
     <View style={styles.container}>
-      <Pressable style={styles.boton} onPress={()=>onHandleItem()} >
-        <Text style={styles.textSt}>{props.item}</Text>
+      <Pressable style={styles.boton} onPress={() => onHandleItem()} >
+        <Text style={styles.textSt}>{item}</Text>
       </Pressable>
     </View>
   )
@@ -28,8 +33,6 @@ export default CategoryItem
 
 const styles = StyleSheet.create({
   container: {
-    //borderColor: 'blue',
-
     width: '100%',
     marginVertical: 10,
     alignItems: 'center',
@@ -47,15 +50,20 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 5,
   },
-  boton:{
+  boton: {
     width: '100%',
-    height:  '100%',
+    height: '100%',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  textSt:{
+  textSt: {
     fontSize: 24,
     fontFamily: 'myFont',
     color: Colors.heavyBlue
+  },
+  image: {
+    height: 100,
+    width: 100,
   }
 })
+
