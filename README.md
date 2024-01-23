@@ -1,5 +1,5 @@
 Nombre de la Aplicación
-"Tu Ecommerce"
+"Tu Tienda"
 
 Estado:
 80% (Trabajo en Proceso)
